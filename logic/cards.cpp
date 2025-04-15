@@ -3,8 +3,11 @@
 #include <iostream>
 #include <set>
 
-ScorableCard::ScorableCard(Suit suit, Rank rank, std::vector<int> scores)
-    : suit(suit), rank(rank), scores(std::move(scores)) {}
+ScorableCard::ScorableCard(Suit suit, Rank rank, std::vector<int> scores, bool hidden = false) :
+    suit(suit),
+    rank(rank),
+    scores(std::move(scores)),
+    hidden(hidden) {}
 ScorableCard::ScorableCard(Suit suit, Rank rank)  : suit(suit), rank(rank) {
     this -> scores =
         (rank == Rank::Ace) ? std::vector<int>{1,11}
@@ -36,9 +39,15 @@ std::string ScorableCard::toString() {
         "Suit: " + std::to_string(this -> suit)
     );
 }
+void ScorableCard::setHidden(bool hidden) {
+    this -> hidden = hidden;
+}
+bool ScorableCard::isHidden() const {
+    return this -> hidden;
+}
 
 CardCollection::CardCollection()
-    : cards(std::move(std::vector<std::unique_ptr<ScorableCard>>())) {}
+    : cards(std::vector<std::unique_ptr<ScorableCard>>()) {}
 const std::vector<std::unique_ptr<ScorableCard>>& CardCollection::getCards() {
     return this->cards;
 }
@@ -65,13 +74,13 @@ int CardCollection::getCount() {
     return this -> cards.size();
 }
 
-std::vector<int> CardCollection::getScores() {
+std::vector<int> CardCollection::getScores() const {
     std::vector<int> total_scores = {0};
-    for (auto &card: this->cards) {
+    for (const std::unique_ptr<ScorableCard>& card: this->cards) {
         std::vector<int> temp_scores = {};
-        for (auto card_score: card->getScores()) {
+        for (const int &card_score: card->getScores()) {
             std::vector<int> per_card_scores = {};
-            for (auto curr_score: total_scores) {
+            for (const int& curr_score: total_scores) {
                 per_card_scores.push_back(card_score + curr_score);
             }
             temp_scores.insert(temp_scores.end(), per_card_scores.begin(), per_card_scores.end());
@@ -80,15 +89,15 @@ std::vector<int> CardCollection::getScores() {
     }
     return total_scores;
 }
-std::set<int> CardCollection::getValidScores() {
+std::vector<int> CardCollection::getValidScores() const {
     std::vector<int> scores = this->getScores();
-    std::set<int> scores_set;
+    std::vector<int> scores_vector;
     for (int score: scores) {
         if (score <= 21) {
-            scores_set.insert(score);
+            scores_vector.push_back(score);
         }
     }
-    return scores_set;
+    return scores_vector;
 }
 void CardCollection::clear() {
     this->cards.clear();

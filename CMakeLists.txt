@@ -16,6 +16,11 @@ add_executable(untitled1
         main.cpp
         logic/cards.cpp
         logic/blackjack.cpp
-        graphics/visualcard.cpp)
+        graphics/cardsprite.cpp
+        graphics/cardsprite.h
+        graphics/scoretext.cpp
+        graphics/scoretext.h
+        graphics/selectable.cpp
+        graphics/selectable.h)
 target_compile_features(untitled1 PRIVATE cxx_std_17)
 target_link_libraries(untitled1 PRIVATE SFML::Graphics)

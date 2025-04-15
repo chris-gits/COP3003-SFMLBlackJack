@@ -2,53 +2,83 @@
 #define BLACKJACK_H
 
 #include <queue>
+#include <stack>
 
 #include "cards.h"
 
-enum BlackjackAction {
-    AwaitAction,
+enum BlackjackEvent {
+    // Startup
+    StartRound,
+
+    // Turns
+    PlayerTurn,
+    DealerTurn,
+
+    // Cards
     PlayerHit,
-    PlayerBust,
-    PlayerWin,
-    PlayerDoubleDown,
-    PlayerSurrender,
-    PlayerStand,
-    PlayerSplit,
     DealerHit,
+
+    // Resolve
+    ResolveGame,
+
+    // Busts
+    PlayerBust,
     DealerBust,
-    DeckEmpty,
+
+    // Draw
+    Draw,
+
+    // End
+    EndRound,
 };
 
-class BlackJack {
-    std::queue<BlackjackAction> action_queue;
-    std::vector<CardCollection> player_hands;
-    CardCollection* player_current_hand;
-    CardCollection dealer_hand;
-    CardCollection deck;
+class Blackjack {
+    // Card Collections
+    CardCollection players_hand;
+    CardCollection dealers_hand;
+    CardCollection game_deck;
+
+    // Bet
     int bet;
-private:
+
+    // Standing
+    bool player_standing;
+
+    // Events
+    std::queue<BlackjackEvent> events_queue;
+
+    // Checks
     void checkForBusts();
-    void playerHit();
-    void dealerHit();
-    void playerSplit();
-    void playerDoubleDown();
-    void playerSurrender();
-    void playerBust();
-    void dealerBust();
-    void playerWin();
-    void dealerWin();
+
+    // Event Handlers
+    void eventStartRound();
+    void eventPlayerTurn();
+    void eventDealerTurn();
+    void eventPlayerHit();
+    void eventDealerHit();
+    void eventResolveGame();
+    void eventPlayerBust();
+    void eventDealerBust();
+    void eventDraw();
+    void eventEndRound();
 public:
-    BlackJack();
-    void setup(); // Clear players and dealers hands, regenerate deck, pull first cards
-    void surrender();
-    void doubleDown();
-    void split();
+    // Constructor
+    Blackjack();
+
+    // Game Initializer
+    void start(int initial_bet);
+
+    // Actions
     void hit();
     void stand();
-    std::vector<CardCollection> getPlayerHands();
-    CardCollection getDealerHand();
-    void setBet(int bet);
-    BlackjackAction nextEvent();
+    void doubleDown();
+
+    // Event Consumer
+    BlackjackEvent nextEvent();
+
+    // Accessors
+    CardCollection& getPlayersHand();
+    CardCollection& getDealersHand();
 };
 
 #endif
