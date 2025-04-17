@@ -18,12 +18,18 @@ enum BlackjackEvent {
     PlayerHit,
     DealerHit,
 
+    // Double
+    PlayerDoubleDown,
+
     // Resolve
     ResolveGame,
 
     // Busts
     PlayerBust,
     DealerBust,
+
+    // Blackjack
+    PlayerBlackjack,
 
     // Draw
     Draw,
@@ -61,6 +67,8 @@ class Blackjack {
     void eventDealerBust();
     void eventDraw();
     void eventEndRound();
+    void eventPlayerDoubleDown();
+    void eventPlayerBlackjack();
 public:
     // Constructor
     Blackjack();
@@ -79,6 +87,7 @@ public:
     // Accessors
     CardCollection& getPlayersHand();
     CardCollection& getDealersHand();
+    int getBet() const;
 };
 
 #endif

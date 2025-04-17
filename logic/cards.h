@@ -11,16 +11,12 @@ class ScorableCard {
     Suit suit;
     Rank rank;
     std::vector<int> scores;
-    bool hidden;
 public:
-    ScorableCard(Suit suit, Rank rank, std::vector<int> scores, bool hidden);
+    ScorableCard(Suit suit, Rank rank, std::vector<int> scores);
     ScorableCard(Suit suit, Rank rank);
     Suit getSuit() const;
     Rank getRank() const;
     std::vector<int> getScores() const;
-    std::string toString();
-    void setHidden(bool hidden);
-    bool isHidden() const;
 };
 
 class CardCollection {

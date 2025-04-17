@@ -3,11 +3,10 @@
 #include <iostream>
 #include <set>
 
-ScorableCard::ScorableCard(Suit suit, Rank rank, std::vector<int> scores, bool hidden = false) :
+ScorableCard::ScorableCard(Suit suit, Rank rank, std::vector<int> scores) :
     suit(suit),
     rank(rank),
-    scores(std::move(scores)),
-    hidden(hidden) {}
+    scores(std::move(scores)) {}
 ScorableCard::ScorableCard(Suit suit, Rank rank)  : suit(suit), rank(rank) {
     this -> scores =
         (rank == Rank::Ace) ? std::vector<int>{1,11}
@@ -33,17 +32,6 @@ Rank ScorableCard::getRank() const {
 }
 std::vector<int> ScorableCard::getScores() const {
     return this -> scores;
-}
-std::string ScorableCard::toString() {
-    return std::string(
-        "Suit: " + std::to_string(this -> suit)
-    );
-}
-void ScorableCard::setHidden(bool hidden) {
-    this -> hidden = hidden;
-}
-bool ScorableCard::isHidden() const {
-    return this -> hidden;
 }
 
 CardCollection::CardCollection()

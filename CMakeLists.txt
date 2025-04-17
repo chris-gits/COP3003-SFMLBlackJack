@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.29)
 project(untitled1)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -23,4 +23,4 @@ add_executable(untitled1
         graphics/selectable.cpp
         graphics/selectable.h)
 target_compile_features(untitled1 PRIVATE cxx_std_17)
-target_link_libraries(untitled1 PRIVATE SFML::Graphics)
+target_link_libraries(untitled1 PRIVATE SFML::Graphics SFML::Audio)
