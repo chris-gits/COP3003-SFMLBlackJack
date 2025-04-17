@@ -127,6 +127,7 @@ int main() {
     sf::Sound sound_click(sound_buffer_click);
     sf::SoundBuffer sound_buffer_blackjack("../assets/blackjackSound.wav");
     sf::Sound sound_blackjack(sound_buffer_blackjack);
+    sound_blackjack.setVolume(150);
 
     // Create the Clock & DeltaTime
     sf::Clock clock;

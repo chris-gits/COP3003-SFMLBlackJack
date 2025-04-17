@@ -67,7 +67,7 @@ void Blackjack::checkForBusts() {
             return;
         } else if (player_highest_score == 21 && dealer_highest_score != player_highest_score) {
             this -> events_queue = std::queue<BlackjackEvent>();
-            this -> events_queue.push(BlackjackEvent::DealerBust);
+            this -> events_queue.push(BlackjackEvent::PlayerBlackjack);
         } else if (player_highest_score == dealer_highest_score == 21) {
             this -> events_queue = std::queue<BlackjackEvent>();
             this -> events_queue.push(BlackjackEvent::Draw);
